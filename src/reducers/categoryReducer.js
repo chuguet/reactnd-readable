@@ -8,6 +8,7 @@ export default (state = {}, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
+        categories: action.categories,
       }
     case GET_POSTS_BY_CATEGORY:
       const { id } = action;
