@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {connect} from 'react-redux';
+import {addRecipe, removeFromCalendar} from './actions';
 import './App.css';
+import Category from './components/category'
 
 import * as api from './utils/api';
 
 class App extends Component {
   state = {
-    posts: []
+    posts: [],
+    categories: []
+  }
+  listCategories = () => {
+    api.getCategories()
+      .then(categories => {
+        console.log('categories: ', categories);
+      })
   }
   listPosts = () => {
     api.getPosts()
       .then(posts => {
-        console.log(posts);
+        console.log('posts: ', posts);
         this.setState(posts);
       })
   }
   componentDidMount() {
+    this.listCategories();
     this.listPosts();
   }
   clickButton = (ev) => {
@@ -26,18 +36,40 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-          <p>{this.state.posts}</p>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button onClick={this.clickButton}>Votar</button>
+        <Category/>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps({calendar, food}) {
+  const dayOrder = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday'
+  ];
+  return {
+    calendar: dayOrder.map(day => ({
+      day,
+      meals: Object.keys(calendar[day]).reduce((meals, meal) => {
+        meals[meal] = calendar[day][meal]
+          ? calendar[day][meal]
+          : null
+        return meals;
+      }, {})
+    }))
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectRecipe: data => dispatch(addRecipe(data)),
+    remove: data => dispatch(removeFromCalendar(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
