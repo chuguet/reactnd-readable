@@ -6,16 +6,12 @@ import {
 export default (state = {}, action) => {
   switch (action.type) {
     case GET_CATEGORIES:
-      return {
-        ...state,
-        categories: action.categories,
-      }
+      return Object.assign({}, state, action.categories)
     case GET_POSTS_BY_CATEGORY:
       const { id } = action;
-      return {
+      return Object.assign({}, state, {
         id,
-        ...state,
-      }
+      })
     default:
       return state;
   }

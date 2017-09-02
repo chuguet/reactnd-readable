@@ -6,46 +6,29 @@ import Category from './components/category'
 
 
 class App extends Component {
-  /*
-  listPosts = () => {
-    api.getPosts()
-      .then(posts => {
-        console.log('posts: ', posts);
-        this.setState(posts);
-      })
-  }*/
   componentDidMount() {
-    console.log('props: ', this.props)
     this.props.fetchCategories();
-    //this.listPosts();
-  }/*
-  clickButton = (ev) => {
-    ev.preventDefault();
-    api.votePost("8xf0y6ziyjabvozdd253nd", 'upVote')
-    this.listPosts();
-  }*/
+  }
   render() {
-    const { categories } = this.props;
+    const categories = Object.values(this.props.categories).map((category, index) => <Category key={index} category={category}/>);
     return (
       <div className="App">
-        <Category categories={categories}/>
+        {categories}
       </div>
     );
   }
 }
 
 function mapStateToProps({ categories }) {
-  console.log('state categories: ', categories)
   return {
     categories,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log('dispatch: ', dispatch)
   return {
     fetchCategories: () => dispatch(getCategories()),
-    getPostsByCategory: data => dispatch(getPostsByCategory(data))
+    fetchPostsByCategory: data => dispatch(getPostsByCategory(data))
   };
 }
 
