@@ -11,7 +11,7 @@ export const getCategories = () => {
   .then(res => res.json());
 }
 
-export const getPostByCategory = (category) => {
+export const getPostsByCategory = (category) => {
   return fetch(`${BASE_URI}/${category}/posts`, {headers})
   .then(res => res.json());
 }

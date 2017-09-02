@@ -15,13 +15,21 @@ export function getCategories() {
 export function getCategoriesSuccess(categories) {
   return {
     type: GET_CATEGORIES,
-    categories
+    categories: categories
   }
 }
 
-export function getPostsByCategory({ idPost }) {
+export function getPostsByCategory(category) {
+  return (dispatch) => {
+    api.getPostsByCategory(category.path).then((posts) => {
+      dispatch(getPostsByCategorySuccess(posts));
+    });
+  };
+}
+
+export function getPostsByCategorySuccess(posts) {
   return {
     type: GET_POSTS_BY_CATEGORY,
-    id: idPost,
+    posts: posts,
   }
 }

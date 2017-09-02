@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategories, getPostsByCategory } from './actions/categoryActions';
+import { getCategories } from './actions/categoryActions';
 import './App.css';
 import Category from './components/category'
 
@@ -20,15 +20,15 @@ class App extends Component {
 }
 
 function mapStateToProps({ categories }) {
+  const listCategories = Object.assign({}, categories.categories);
   return {
-    categories,
+    categories: listCategories,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: () => dispatch(getCategories()),
-    fetchPostsByCategory: data => dispatch(getPostsByCategory(data))
+    fetchCategories: () => dispatch(getCategories())
   };
 }
 
