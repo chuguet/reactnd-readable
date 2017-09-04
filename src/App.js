@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCategories } from './actions/categoryActions';
+import { getPosts } from './actions/postActions';
 import './App.css';
 import Category from './components/category'
 
@@ -8,27 +9,27 @@ import Category from './components/category'
 class App extends Component {
   componentDidMount() {
     this.props.fetchCategories();
+    this.props.fetchPosts();
   }
   render() {
-    const categories = Object.values(this.props.categories).map((category, index) => <Category key={index} category={category}/>);
     return (
       <div className="App">
-        {categories}
+        {this.props.categories.map((category, index) => <Category key={index} category={category}/>)}
       </div>
     );
   }
 }
 
-function mapStateToProps({ categories }) {
-  const listCategories = Object.assign({}, categories.categories);
+function mapStateToProps(state) {
   return {
-    categories: listCategories,
+    categories: state.categories.categories,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: () => dispatch(getCategories())
+    fetchCategories: () => dispatch(getCategories()),
+    fetchPosts: () => dispatch(getPosts())
   };
 }
 

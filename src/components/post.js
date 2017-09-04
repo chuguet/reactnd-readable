@@ -4,8 +4,12 @@ import {connect} from 'react-redux';
 class Post extends Component {
 
   render() {
+    const { body, title, author } = this.props.post;
     return (
-      <div>POST</div>
+      <div>
+          <h3>Post {title}</h3>
+          <p>Author: {author}</p>
+      </div>
     );
   }
 }

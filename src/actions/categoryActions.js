@@ -19,17 +19,17 @@ export function getCategoriesSuccess(categories) {
   }
 }
 
-export function getPostsByCategory(category) {
-  return (dispatch) => {
-    api.getPostsByCategory(category.path).then((posts) => {
-      dispatch(getPostsByCategorySuccess(posts));
-    });
-  };
-}
+// export function getPostsByCategory(category) {
+//   return (dispatch) => {
+//     api.getPostsByCategory(category.path).then((posts) => {
+//       dispatch(getPostsByCategorySuccess(posts));
+//     });
+//   };
+// }
 
-export function getPostsByCategorySuccess(posts) {
-  return {
-    type: GET_POSTS_BY_CATEGORY,
-    posts: posts,
-  }
-}
+// export function getPostsByCategorySuccess(posts) {
+//   return {
+//     type: GET_POSTS_BY_CATEGORY,
+//     posts: posts,
+//   }
+// }
