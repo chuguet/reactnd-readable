@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class Post extends Component {
 
@@ -9,17 +10,21 @@ class Post extends Component {
       <div>
           <h3>Post {title}</h3>
           <p>Author: {author}</p>
+          <p>Body: {body}</p>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {}
+function mapStateToProps(state, props) {
+  const post = state.posts.posts.find(post => post.id === props.postId) || {};
+  return {
+    post: post
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
