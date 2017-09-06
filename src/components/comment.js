@@ -7,7 +7,7 @@ class Comment extends Component {
   render() {
     const { body, voteScore, author, timestamp } = this.props.comment;
     return (
-      <div>
+      <div className="comment">
           <h3>Comment</h3>
           <p>Author: {author}</p>
           <p>Body: {body}</p>

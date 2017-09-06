@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Comment from './comment';
+import Modal from './modal';
 
 import { getCommentsByPost } from './../actions/commentActions';
 
 class Post extends Component {
 
   state = {
-    sortingCriteria: 'score'
+    sortingCriteria: 'score',
+    modalOpen: false,
+    post: {
+
+    }
   }
 
   onChange = (ev) => {
@@ -41,6 +46,15 @@ class Post extends Component {
     ));
   }
 
+  editPost = (ev) => {
+    ev.preventDefault();
+    this.setState({ modalOpen: true })
+  }
+
+  closeModal = () => {
+    this.setState({ modalOpen: false })
+  }
+
   render() {
     const { body, title, author, timestamp, voteScore } = this.props.post;
     const { showComment, showDetail } = this.props;
@@ -49,7 +63,8 @@ class Post extends Component {
       commentsView = this.getCommentsView()
     }
     return (
-      <div>
+      <div className="post">
+          <button onClick={this.editPost}>Edit post</button>
           <h3>Post {title}</h3>
           <p>Author: {author}</p>
           <p>Vote score: {voteScore}</p>
@@ -65,9 +80,41 @@ class Post extends Component {
             </div>
             : null }
           { commentsView }
+          <Modal content={this.getFormForModal(this.props.post)} openModal={this.state.modalOpen} closeModal={this.closeModal}/>
       </div>
     );
   }
+
+  getFormForModal = (post) => {
+    const { id, body, title, author, timestamp } = post;
+    return (
+      <div>
+        <form>
+          <input type="hidden" value={id}/>
+          <input type="hidden" value={timestamp || new Date().getTime()}/>
+          <div>
+            <label>Title:</label>
+            <input type="text" name="title" value={title}/>
+          </div>
+          <div>
+            <label>Body:</label>
+            <input type="text" name="body" value={body}/>
+          </div>
+          <div>
+            <label>Owner:</label>
+            <input type="text" name="owner" value={author}/>
+          </div>
+          <button type="submit" onClick={this.submitPost}>Submit</button>
+        </form>
+      </div>
+    );
+  }
+
+  submitPost = (ev) => {
+    ev.preventDefault();
+    console.log(ev.target.value);
+  }
+
 }
 
 function mapStateToProps(state, props, stateComponent) {
