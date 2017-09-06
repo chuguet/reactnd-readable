@@ -8,14 +8,14 @@ import Post from './post';
 class Category extends Component {
 
   render() {
-    const {category, posts} = this.props;
+    const {category, posts } = this.props;
     return (
       <div className="category">
         <h2>Category {category.name}</h2>
         <p>Path {category.path}</p>
         {posts.map((post, index) => (
           <div key={index}>
-            <Post key={index} postId={post.id}/>
+            <Post key={index} postUuid={post.id}/>
             <Link
               className="postLink"
               to={"/categories/" + category.path + "/posts/" + post.id}
@@ -29,8 +29,9 @@ class Category extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const posts = state.posts.posts.filter(post => post.category === props.categoryId) || [];
-  const category = state.categories.categories.find(category => category.path === props.categoryId) || {};
+  const categoryUuid = props.categoryUuid || props.match.params.categoryUuid;
+  const posts = state.posts.posts.filter(post => post.category === categoryUuid) || [];
+  const category = state.categories.categories.find(category => category.path === categoryUuid) || {};
   return {
     posts: posts,
     category: category,

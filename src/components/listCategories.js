@@ -12,7 +12,7 @@ class ListCategories extends Component {
       <div className="categories">
         {categories.map((category, index) => (
           <div key={index}>
-            <Category categoryId={category.path}/>
+            <Category categoryUuid={category.path}/>
             <Link
               className="categoryLink"
               to={"/categories/" + category.path}
