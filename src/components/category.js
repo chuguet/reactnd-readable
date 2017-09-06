@@ -112,8 +112,8 @@ class Category extends Component {
   submitPost = () => {
     this.setState({
       post: {
-        id: new Date().getTime() //change for uuid,
-        category: this.props.category.path // get the category path,
+        id: new Date().getTime(), //change for uuid
+        category: this.props.category.path, // get the category path
         timestamp: new Date().getTime()
       }
     });
