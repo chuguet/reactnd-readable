@@ -53,10 +53,10 @@ class Post extends Component {
           <h3>Post {title}</h3>
           <p>Author: {author}</p>
           <p>Vote score: {voteScore}</p>
+          <p>Time: {new Date(timestamp).toString()}</p>
           { showDetail ?
             <div>
               <p>Body: {body}</p>
-              <p>Time: {new Date(timestamp).toString()}</p>
 
               <select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
                 <option value="timestamp">By time</option>
