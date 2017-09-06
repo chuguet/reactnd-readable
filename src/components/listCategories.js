@@ -8,17 +8,18 @@ import Category from './category'
 class ListCategories extends Component {
   render() {
     const { categories } = this.props;
+    const categoriesView = categories.map((category, index) => (
+      <div key={index}>
+        <Category categoryUuid={category.path}/>
+        <Link
+          className="categoryLink"
+          to={"/categories/" + category.path}
+        >Go to the category</Link>
+      </div>
+    ));
     return (
       <div className="categories">
-        {categories.map((category, index) => (
-          <div key={index}>
-            <Category categoryUuid={category.path}/>
-            <Link
-              className="categoryLink"
-              to={"/categories/" + category.path}
-            >Go to the category</Link>
-          </div>
-        ))}
+        { categoriesView }
       </div>
     );
   }
