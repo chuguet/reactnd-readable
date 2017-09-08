@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 
 import Comment from './comment';
 import CommentForm from './forms/commentForm';
+import PostForm from './forms/postForm';
 
 import { getCommentsByPost } from './../actions/commentActions';
 import { getPosts, likePost, unlikePost } from './../actions/postActions';
@@ -14,7 +15,8 @@ class Post extends Component {
 
   state = {
     sortingCriteria: 'score',
-    modalOpen: false,
+    modalOpenComment: false,
+    modalOpenPost: false,
     post: {},
   }
 
@@ -47,6 +49,12 @@ class Post extends Component {
     ));
   }
 
+  getPost = () => {
+    return {
+      id: this.getPostUuid(),
+    }
+  }
+
   getPostUuid = () => {
     return this.props.postUuid || this.props.match.params.postUuid;
   }
@@ -66,8 +74,22 @@ class Post extends Component {
     this.setState({modalOpen: true})
   }
 
-  closeModal = () => {
-    this.setState({modalOpen: false})
+  closeModalComment = () => {
+    this.setState({ modalOpenComment: false})
+  }
+
+  closeModalPost = () => {
+    this.setState({modalOpenPost: false})
+  }
+
+  addCommentHandler = (ev) => {
+    ev.preventDefault();
+    this.setState({ modalOpenComment: true });
+  }
+
+  editPostHandler = (ev) => {
+    ev.preventDefault();
+    this.setState({ modalOpenPost: true });
   }
 
   render() {
@@ -88,7 +110,8 @@ class Post extends Component {
           >
             <h3 className="post-title-content">Post {title}</h3>
           </Link>
-          <button className="post-title-content" onClick={this.editPost}>Edit post</button>
+          <button className="post-title-content" onClick={this.editPostHandler}>Edit post</button>
+          <button className="post-title-content" onClick={this.addCommentHandler}>Add comment</button>
         </div>
         <p>Author: {author}</p>
         <p>Vote score: {voteScore}</p>
@@ -106,11 +129,20 @@ class Post extends Component {
         <Modal
           className='modal'
           overlayClassName='overlay'
-          isOpen={this.state.openModal}
-          onRequestClose={this.props.closeModal}
+          isOpen={this.state.modalOpenComment}
+          onRequestClose={this.closeModalComment}
           contentLabel='Modal'
         >
           <CommentForm/>
+        </Modal>
+        <Modal
+          className='modal'
+          overlayClassName='overlay'
+          isOpen={this.state.modalOpenPost}
+          onRequestClose={this.closeModalPost}
+          contentLabel='Modal'
+        >
+          <PostForm post={this.getPost}/>
         </Modal>
       </div>
     );
