@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Modal from 'react-modal';
+
 import { getCategories } from './../actions/categoryActions';
 import { getPosts } from './../actions/postActions';
 
-import * as api from './../utils/api';
-
-import Modal from 'react-modal';
 import Post from './post';
 import PostForm from './forms/postForm';
 

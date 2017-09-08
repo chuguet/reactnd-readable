@@ -3,6 +3,24 @@ import * as api from './../utils/api';
 export const GET_POSTS = 'GET_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+export const ADD_POST = 'ADD_POST';
+
+export function addPost(post) {
+  return (dispatch) => {
+    api.addPost(post).then(() => {
+      api.getPosts().then(posts => {
+        dispatch(addPostSuccess(posts));
+      })
+    });
+  };
+}
+
+export function addPostSuccess(posts) {
+  return {
+    type: ADD_POST,
+    posts: posts
+  }
+}
 
 export function getPosts() {
   return (dispatch) => {

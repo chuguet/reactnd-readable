@@ -1,49 +1,41 @@
 import React, {Component} from 'react';
-
+import {connect} from 'react-redux';
 import uuid from 'react-native-uuid';
 
-import * as api from './../../utils/api';
+import { addPost } from './../../actions/postActions';
 
 class PostForm extends Component {
 
   state = {
-    id: '',
-    timestamp: '',
-    category: '',
     title: '',
     body: '',
     author: ''
   }
 
   componentDidMount() {
-    const { category, title, body, author } = this.props.post;
-    const id = this.props.post.id || uuid.v4();
-    const timestamp = this.props.post.timestamp || Date.now();
-    this.setState({ id, timestamp, category, title, body, author });
+    const {title, body, author} = this.props.post;
+    this.setState({title, body, author});
   }
 
   handleTitleChange = (ev) => {
     ev.preventDefault();
-    this.setState({ title: ev.target.value });
+    this.setState({title: ev.target.value});
   }
 
   handleBodyChange = (ev) => {
     ev.preventDefault();
-    this.setState({ body: ev.target.value });
+    this.setState({body: ev.target.value});
   }
 
   handleAuthorChange = (ev) => {
     ev.preventDefault();
-    this.setState({ author: ev.target.value });
+    this.setState({author: ev.target.value});
   }
 
   render() {
     return (
       <div>
         <form>
-          <input type="hidden" value={this.state.id}/>
-          <input type="hidden" value={this.state.timestamp}/>
-          <input type="hidden" value={this.state.category}/>
           <div>
             <label>Title:</label>
             <input onChange={this.handleTitleChange} type="text" name="title" value={this.state.title}/>
@@ -62,12 +54,26 @@ class PostForm extends Component {
     );
   }
 
-  submitPost = () => {
-    api.addPost(this.state).then(() => {
-      this.props.fetchPosts();
-      this.props.fetchCategories();
+  submitPost = (ev) => {
+    ev.preventDefault();
+    const post = Object.assign({}, this.state, {
+      category: this.props.post.category,
+      id: this.props.post.id || uuid.v4(),
+      timestamp: this.props.post.timestamp || Date.now()
     });
+    this.props.addPost(post);
   }
 }
 
-export default PostForm;
+
+function mapStateToProps(state, props) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addPost: (post) => dispatch(addPost(post))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

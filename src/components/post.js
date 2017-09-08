@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
 
 import Comment from './comment';
 import CommentForm from './forms/commentForm';
-import Modal from 'react-modal';
 
 import { getCommentsByPost } from './../actions/commentActions';
 import { getPosts, likePost, unlikePost } from './../actions/postActions';

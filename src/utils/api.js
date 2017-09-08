@@ -22,7 +22,6 @@ export const getPosts = (id = '') => {
 }
 
 export const addPost = ({id, timestamp, title, body, author, category}) => {
-debugger;
   return fetch(`${BASE_URI}/posts`, {headers, method: 'POST', body: JSON.stringify({
     id,
     timestamp,
