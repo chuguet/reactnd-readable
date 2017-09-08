@@ -21,13 +21,14 @@ export const getPosts = (id = '') => {
   .then(res => res.json());
 }
 
-export const addPost = ({id, timestamp, title, body, owner, category}) => {
+export const addPost = ({id, timestamp, title, body, author, category}) => {
+debugger;
   return fetch(`${BASE_URI}/posts`, {headers, method: 'POST', body: JSON.stringify({
     id,
     timestamp,
     title,
     body,
-    owner,
+    author,
     category
   })})
   .then(res => res.json());
