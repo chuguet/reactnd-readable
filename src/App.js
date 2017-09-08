@@ -26,7 +26,7 @@ class App extends Component {
         >Go index</Link>
         <Route exact path="/" render={() => <ListCategories categories={categories}/>}/>
         <Route exact path="/categories/:categoryUuid" render={() => <Category />}/>
-        <Route exact path="/categories/:categoryUuid/posts/:postUuid" render={() => <Post />}/>
+        <Route exact path="/categories/:categoryUuid/posts/:postUuid" render={({ match }) => <Post linkPost={"/categories/" + match.params.categoryUuid + "/posts/" + match.params.postUuid }/>}/>
       </div>
     );
   }

@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 import Comment from './comment';
 import CommentForm from './forms/commentForm';
 import Modal from 'react-modal';
 
-import {getCommentsByPost} from './../actions/commentActions';
+import { getCommentsByPost } from './../actions/commentActions';
+import { getPosts } from './../actions/postActions';
 
 class Post extends Component {
 
   state = {
     sortingCriteria: 'score',
-    modalOpen: false
+    modalOpen: false,
+    post: {},
   }
 
   onChange = (ev) => {
@@ -44,6 +47,14 @@ class Post extends Component {
     ));
   }
 
+  likePost = (ev) => {
+    ev.preventDefault();
+  }
+
+  unlikePost = (ev) => {
+    ev.preventDefault();
+  }
+
   editPost = (ev) => {
     ev.preventDefault();
     this.setState({modalOpen: true})
@@ -62,15 +73,23 @@ class Post extends Component {
     }
     return (
       <div className="post">
-        <button onClick={this.editPost}>Edit post</button>
-        <h3>Post {title}</h3>
+        <div className="post-title">
+          <button className="post-title-content" onClick={this.unlike}>Like post</button>
+          <button className="post-title-content" onClick={this.unlike}>Unlike post</button>
+          <Link
+            className="postLink"
+            to={this.props.linkPost}
+          >
+            <h3 className="post-title-content">Post {title}</h3>
+          </Link>
+          <button className="post-title-content" onClick={this.editPost}>Edit post</button>
+        </div>
         <p>Author: {author}</p>
         <p>Vote score: {voteScore}</p>
         <p>Time: {new Date(timestamp).toString()}</p>
         {showDetail
           ? <div>
               <p>Body: {body}</p>
-
               <select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
                 <option value="timestamp">By time</option>
                 <option value="score">By score</option>
@@ -107,7 +126,8 @@ function mapStateToProps(state, props, stateComponent) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCommentsByPost: (postUuid) => dispatch(getCommentsByPost(postUuid))
+    fetchCommentsByPost: (postUuid) => dispatch(getCommentsByPost(postUuid)),
+    fetchPosts: () => dispatch(getPosts())
   };
 }
 

@@ -4,13 +4,14 @@ body {
   font-family: sans-serif;
 }
 
-.comment {
+.category-title-content {
+  display: inline-block;
+  margin-left: 1rem;
 }
 
-.post {
-}
-
-.category {
+.post-title-content {
+  display: inline-block;
+  margin-left: 1rem;
 }
 
 .overlay {

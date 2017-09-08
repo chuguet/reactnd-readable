@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom'
 import { getCategories } from './../actions/categoryActions';
 import { getPosts } from './../actions/postActions';
 
@@ -40,11 +39,7 @@ class Category extends Component {
         }
       }).map((post, index) => (
       <div key={index}>
-        <Post key={index} postUuid={post.id}/>
-        <Link
-          className="postLink"
-          to={"/categories/" + category.path + "/posts/" + post.id}
-        >Go to the post</Link>
+        <Post key={index} postUuid={post.id} linkPost={"/categories/" + category.path + "/posts/" + post.id}/>
       </div>
     ));
   }
@@ -60,9 +55,12 @@ class Category extends Component {
     const newPost = { category: category.path };
     return (
       <div className="category">
-        <button onClick={this.openModal}>Add post</button>
-        <h2>Category {category.name}</h2>
-        <p>Path {category.path}</p>
+        <div className="category-title">
+          <h2 className="category-title-content">Category {category.name}</h2>
+          <button className="category-title-content" onClick={this.openModal}>Add post</button>
+        </div>
+        <h4>Path {category.path}</h4>
+        <label>Order posts: </label>
         <select  value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
           <option value="timestamp">By time</option>
           <option value="score">By score</option>
