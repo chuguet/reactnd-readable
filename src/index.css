@@ -14,6 +14,11 @@ body {
   margin-left: 1rem;
 }
 
+.comment-title-content {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
 .overlay {
   position: fixed;
   top: 0px;

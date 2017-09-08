@@ -8,7 +8,7 @@ import CommentForm from './forms/commentForm';
 import Modal from 'react-modal';
 
 import { getCommentsByPost } from './../actions/commentActions';
-import { getPosts } from './../actions/postActions';
+import { getPosts, likePost, unlikePost } from './../actions/postActions';
 
 class Post extends Component {
 
@@ -47,12 +47,18 @@ class Post extends Component {
     ));
   }
 
+  getPostUuid = () => {
+    return this.props.postUuid || this.props.match.params.postUuid;
+  }
+
   likePost = (ev) => {
     ev.preventDefault();
+    this.props.likePost(this.getPostUuid());
   }
 
   unlikePost = (ev) => {
     ev.preventDefault();
+    this.props.unlikePost(this.getPostUuid())
   }
 
   editPost = (ev) => {
@@ -74,8 +80,8 @@ class Post extends Component {
     return (
       <div className="post">
         <div className="post-title">
-          <button className="post-title-content" onClick={this.unlike}>Like post</button>
-          <button className="post-title-content" onClick={this.unlike}>Unlike post</button>
+          <button className="post-title-content" onClick={this.likePost}>Like post</button>
+          <button className="post-title-content" onClick={this.unlikePost}>Unlike post</button>
           <Link
             className="postLink"
             to={this.props.linkPost}
@@ -112,7 +118,7 @@ class Post extends Component {
 
 }
 
-function mapStateToProps(state, props, stateComponent) {
+function mapStateToProps(state, props) {
   const postUuid = props.postUuid || props.match.params.postUuid;
   const post = state.posts.posts.find(post => post.id === postUuid) || {};
   const comments = state.comments.comments.filter(comment => comment.parentId === postUuid)
@@ -127,7 +133,9 @@ function mapStateToProps(state, props, stateComponent) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchCommentsByPost: (postUuid) => dispatch(getCommentsByPost(postUuid)),
-    fetchPosts: () => dispatch(getPosts())
+    fetchPosts: () => dispatch(getPosts()),
+    unlikePost: (postUuid) => dispatch(unlikePost(postUuid)),
+    likePost: (postUuid) => dispatch(likePost(postUuid))
   };
 }
 

@@ -74,9 +74,11 @@ export const getCommentById = (id = '') => {
   .then(res => res.json());
 }
 
-export const voteComment = (id = '') => {
-  return fetch(`${BASE_URI}/comments/${id}`, {headers, method: 'POST'})
-  .then(res => res.json());
+export const voteComment = (id = '', typeVote) => {
+  return fetch(`${BASE_URI}/comments/${id}`, {headers, method: 'POST', body: JSON.stringify({
+    option: typeVote
+  })})
+  .then(() => {return;});
 }
 
 export const editComment = ({ timestamp, id, body }) => {
