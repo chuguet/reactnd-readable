@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import uuid from 'react-native-uuid';
 
 import { addPost, updatePost } from './../../actions/postActions';

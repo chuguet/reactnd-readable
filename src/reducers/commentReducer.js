@@ -2,6 +2,9 @@ import {
   GET_COMMENTS_BY_POST_ID,
   LIKE_COMMENT,
   UNLIKE_COMMENT,
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
 } from './../actions/commentActions';
 
 const initialState = {
@@ -10,14 +13,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case DELETE_COMMENT:
+    case ADD_COMMENT:
+    case UPDATE_COMMENT:
     case GET_COMMENTS_BY_POST_ID:
-      return Object.assign({}, state, {
-        comments: action.comments
-      });
     case LIKE_COMMENT:
-      return Object.assign({}, state, {
-        comments: action.comments
-      });
     case UNLIKE_COMMENT:
       return Object.assign({}, state, {
         comments: action.comments

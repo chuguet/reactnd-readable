@@ -1,72 +1,78 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import uuid from 'react-native-uuid';
 
-import * as api from './../../utils/api';
+import { addComment, updateComment } from './../../actions/commentActions';
 
 class CommentForm extends Component {
 
   state = {
-    id: '',
-    timestamp: '',
-    category: ''
+    body: '',
+    author: '',
   }
 
   componentDidMount() {
-    const { id, timestamp, category } = this.props;
-    this.setState({ id, timestamp, category });
-  }
-
-  handleTitleChange = (ev) => {
-    ev.preventDefault();
-    this.setState({ title: ev.target.value });
+    const { body, author } = this.props;
+    this.setState({ body, author });
   }
 
   handleBodyChange = (ev) => {
     ev.preventDefault();
-    this.setState({ body: ev.target.value });
+    this.setState({body: ev.target.value});
   }
 
-  handleOwnerChange = (ev) => {
+  handleAuthorChange = (ev) => {
     ev.preventDefault();
-    this.setState({ owner: ev.target.value });
+    this.setState({author: ev.target.value});
   }
 
   render() {
     return (
       <div>
         <form>
-          <input type="hidden" value={this.state.id}/>
-          <input type="hidden" value={this.state.timestamp || new Date().getTime()}/>
-          <div>
-            <label>Title:</label>
-            <input type="text" name="title" value={this.state.title}/>
-          </div>
           <div>
             <label>Body:</label>
-            <input type="text" name="body" value={this.statebody}/>
+            <input onChange={this.handleBodyChange} type="text" name="body" value={this.state.body}/>
           </div>
           <div>
-            <label>Owner:</label>
-            <input type="text" name="owner" value={this.state.author}/>
+            <label>Author:</label>
+            <input onChange={this.handleAuthorChange} type="text" name="author" value={this.state.author}/>
           </div>
-          <button type="submit" onClick={this.submitPost}>Submit</button>
+          <button type="submit" onClick={this.submitComment}>Submit</button>
         </form>
       </div>
     );
   }
 
-  submitPost = () => {
-    this.setState({
-      post: {
-        id: new Date().getTime(), //change for uuid
-        category: this.props.category.path, // get the category path
-        timestamp: new Date().getTime()
-      }
+  submitComment = (ev) => {
+    ev.preventDefault();
+    const { id, timestamp } = this.props.comment || {};
+    const parentId = this.props.post.id;
+    const comment = Object.assign({}, this.state, {
+      parentId,
+      id: id || uuid.v4(),
+      timestamp: timestamp || Date.now(),
     });
-    api.addPost(this.state.post).then(() => {
-      this.props.fetchPosts();
-      this.props.fetchCategories();
-    });
+    if(this.props.isUpdate) {
+      this.props.updateComment(comment);
+    } else {
+      this.props.addComment(comment);
+    }
+    this.props.closeForm();
   }
+
 }
 
-export default CommentForm;
+
+function mapStateToProps(state, props) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addComment: (comment) => dispatch(addComment(comment)),
+    updateComment: (comment) => dispatch(updateComment(comment)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

@@ -133,13 +133,18 @@ class Post extends Component {
         {showDetail
           ? <div>
               <p>Body: {body}</p>
-              <select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
-                <option value="timestamp">By time</option>
-                <option value="score">By score</option>
-              </select>
             </div>
           : null}
-        {commentsView}
+        {
+          <div>
+            <label>Order comments </label>
+            <select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
+              <option value="timestamp">By time</option>
+              <option value="score">By score</option>
+            </select>
+            {commentsView}
+          </div>
+        }
         <Modal
           className='modal'
           overlayClassName='overlay'
@@ -147,7 +152,7 @@ class Post extends Component {
           onRequestClose={this.closeModalComment}
           contentLabel='Modal'
         >
-          <CommentForm/>
+          <CommentForm closeForm={this.closeModalComment} isUpdate={false} post={this.getPost()}/>
         </Modal>
         <Modal
           className='modal'
