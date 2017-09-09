@@ -72,7 +72,7 @@ class Category extends Component {
           onRequestClose={this.closeModal}
           contentLabel='Modal'
         >
-          <PostForm post={newPost}/>
+          <PostForm closeForm={this.closeModal} isUpdate={false} post={newPost}/>
         </Modal>
       </div>
     );

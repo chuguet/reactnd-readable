@@ -44,12 +44,12 @@ export const editPost = (id = '', {title, body}) => {
     title,
     body,
   })})
-  .then(res => res.json());
+  .then(res => {return;});
 }
 
 export const deletePost = (id = '') => {
   return fetch(`${BASE_URI}/posts/${id}`, {headers, method: 'DELETE'})
-  .then(res => res.json());
+  .then(res => {return;});
 }
 
 export const getCommentsByPost = (id = '') => {

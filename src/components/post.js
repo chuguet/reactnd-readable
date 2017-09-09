@@ -9,7 +9,7 @@ import CommentForm from './forms/commentForm';
 import PostForm from './forms/postForm';
 
 import { getCommentsByPost } from './../actions/commentActions';
-import { getPosts, likePost, unlikePost } from './../actions/postActions';
+import { likePost, unlikePost, deletePost } from './../actions/postActions';
 
 class Post extends Component {
 
@@ -50,9 +50,15 @@ class Post extends Component {
   }
 
   getPost = () => {
+    const { id, body, title, author, timestamp, category } = this.props.post;
     return {
-      id: this.getPostUuid(),
-    }
+      id,
+      author,
+      timestamp,
+      body,
+      title,
+      category,
+    };
   }
 
   getPostUuid = () => {
@@ -92,6 +98,11 @@ class Post extends Component {
     this.setState({ modalOpenPost: true });
   }
 
+  deletePostHandler = (ev) => {
+    ev.preventDefault();
+    this.props.deletePost(this.props.post.id);
+  }
+
   render() {
     const {body, title, author, timestamp, voteScore} = this.props.post;
     const {showComment, showDetail} = this.props;
@@ -111,7 +122,10 @@ class Post extends Component {
             <h3 className="post-title-content">Post {title}</h3>
           </Link>
           <button className="post-title-content" onClick={this.editPostHandler}>Edit post</button>
-          <button className="post-title-content" onClick={this.addCommentHandler}>Add comment</button>
+          <button className="post-title-content" onClick={this.deletePostHandler}>Delete post</button>
+          {showDetail
+            ? <button className="post-title-content" onClick={this.addCommentHandler}>Add comment</button>
+            : null}
         </div>
         <p>Author: {author}</p>
         <p>Vote score: {voteScore}</p>
@@ -142,7 +156,7 @@ class Post extends Component {
           onRequestClose={this.closeModalPost}
           contentLabel='Modal'
         >
-          <PostForm post={this.getPost}/>
+          <PostForm closeForm={this.closeModalPost} isUpdate={true} post={this.getPost()}/>
         </Modal>
       </div>
     );
@@ -165,7 +179,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchCommentsByPost: (postUuid) => dispatch(getCommentsByPost(postUuid)),
-    fetchPosts: () => dispatch(getPosts()),
+    deletePost: (postUuid) => dispatch(deletePost(postUuid)),
     unlikePost: (postUuid) => dispatch(unlikePost(postUuid)),
     likePost: (postUuid) => dispatch(likePost(postUuid))
   };

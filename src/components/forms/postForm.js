@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import uuid from 'react-native-uuid';
 
-import { addPost } from './../../actions/postActions';
+import { addPost, updatePost } from './../../actions/postActions';
 
 class PostForm extends Component {
 
@@ -44,10 +44,12 @@ class PostForm extends Component {
             <label>Body:</label>
             <input onChange={this.handleBodyChange} type="text" name="body" value={this.state.body}/>
           </div>
+          {this.props.isUpdate ? null :
           <div>
             <label>Author:</label>
             <input onChange={this.handleAuthorChange} type="text" name="author" value={this.state.author}/>
           </div>
+          }
           <button type="submit" onClick={this.submitPost}>Submit</button>
         </form>
       </div>
@@ -56,12 +58,18 @@ class PostForm extends Component {
 
   submitPost = (ev) => {
     ev.preventDefault();
+    const { category, id, timestamp } = this.props.post;
     const post = Object.assign({}, this.state, {
-      category: this.props.post.category,
-      id: this.props.post.id || uuid.v4(),
-      timestamp: this.props.post.timestamp || Date.now()
+      category,
+      id: id || uuid.v4(),
+      timestamp: timestamp || Date.now()
     });
-    this.props.addPost(post);
+    if(this.props.isUpdate) {
+      this.props.updatePost(post);
+    } else {
+      this.props.addPost(post);
+    }
+    this.props.closeForm();
   }
 }
 
@@ -72,7 +80,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPost: (post) => dispatch(addPost(post))
+    addPost: (post) => dispatch(addPost(post)),
+    updatePost: (post) => dispatch(updatePost(post)),
   };
 }
 
