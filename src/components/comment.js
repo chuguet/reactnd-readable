@@ -1,10 +1,34 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Modal from 'react-modal';
+
+import CommentForm from './forms/commentForm';
 
 import { likeComment, unlikeComment, deleteComment } from './../actions/commentActions';
 
 class Comment extends Component {
+
+  state = {
+    modalOpen: false
+  }
+
+  getPost = () => {
+    const comment = this.props.comment;
+    return {
+      id: comment.parentId
+    }
+  }
+
+  getComment = () => {
+    const { body, author, id, timestamp } = this.props.comment || {};
+    return {
+      body,
+      author,
+      id,
+      timestamp,
+    }
+  }
 
   likeComment = (ev) => {
     ev.preventDefault();
@@ -20,6 +44,11 @@ class Comment extends Component {
 
   editComment = (ev) => {
     ev.preventDefault();
+    this.setState({ modalOpen: true });
+  }
+
+  closeModal = () => {
+    this.setState({ modalOpen: false });
   }
 
   deleteComment = (ev) => {
@@ -42,6 +71,15 @@ class Comment extends Component {
           <p>Body: {body}</p>
           <p>Score: {voteScore}</p>
           <p>Time: { new Date(timestamp).toString() }</p>
+          <Modal
+            className='modal'
+            overlayClassName='overlay'
+            isOpen={this.state.modalOpen}
+            onRequestClose={this.closeModal}
+            contentLabel='Modal'
+          >
+            <CommentForm closeForm={this.closeModal} isUpdate={true} post={this.getPost()} comment={this.getComment()}/>
+          </Modal>
       </div>
     );
   }

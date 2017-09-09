@@ -12,7 +12,7 @@ class CommentForm extends Component {
   }
 
   componentDidMount() {
-    const { body, author } = this.props;
+    const { body, author } = this.props.comment || {};
     this.setState({ body, author });
   }
 
@@ -34,10 +34,13 @@ class CommentForm extends Component {
             <label>Body:</label>
             <input onChange={this.handleBodyChange} type="text" name="body" value={this.state.body}/>
           </div>
-          <div>
-            <label>Author:</label>
-            <input onChange={this.handleAuthorChange} type="text" name="author" value={this.state.author}/>
-          </div>
+          {this.props.isUpdate ?
+            null :
+            <div>
+              <label>Author:</label>
+              <input onChange={this.handleAuthorChange} type="text" name="author" value={this.state.author}/>
+            </div>
+          }
           <button type="submit" onClick={this.submitComment}>Submit</button>
         </form>
       </div>
