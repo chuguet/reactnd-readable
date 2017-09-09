@@ -1,6 +1,6 @@
 # ReactND Readable
 
-MyReads is an app where users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+Readable is an app where users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 
 ## Installation
 
@@ -8,6 +8,12 @@ MyReads is an app where users will be able to post content to predefined categor
 - Run `npm install` in the root directory
 - Run `npm start`
 - Go to `http://localhost:3000` in your browser
+
+## Prerequisites
+
+You will need launch a server in order to run this application correctly.
+The server is located here: https://github.com/udacity/reactnd-project-readable-starter
+Please, download it and run 'node server.js'
 
 ## Features
 
