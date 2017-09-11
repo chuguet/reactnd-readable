@@ -1,4 +1,4 @@
-const BASE_URI = 'http://localhost:5001';
+const BASE_URI = 'http://localhost:3001';
 const TOKEN = '503a657b-1e4c-445b-b745-86341694f8df';
 const headers = {
   'Accept': 'application/json',
