@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
 
 import { getCategories } from './../actions/categoryActions';
 import { getPosts } from './../actions/postActions';
@@ -55,7 +56,12 @@ class Category extends Component {
     return (
       <div className="category">
         <div className="category-title">
-          <h2 className="category-title-content">Category {category.name}</h2>
+          <Link
+            className="categoryLink"
+            to={"/categories/" + category.path}
+          >
+            <h2 className="category-title-content">Category {category.name}</h2>
+          </Link>
           <button className="category-title-content" onClick={this.openModal}>Add post</button>
         </div>
         <h4>Path {category.path}</h4>
