@@ -106,10 +106,7 @@ class Post extends Component {
   render() {
     const {body, title, author, timestamp, voteScore} = this.props.post;
     const {showComment, showDetail} = this.props;
-    let commentsView = null;
-    if (showComment) {
-      commentsView = this.getCommentsView()
-    }
+    const commentsView = showComment ? this.getCommentsView() : null;
     return (
       <div className="post">
         <div className="post-title">

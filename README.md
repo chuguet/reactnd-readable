@@ -14,6 +14,7 @@ Readable is an app where users will be able to post content to predefined catego
 You will need launch a server in order to run this application correctly.
 The server is located here: https://github.com/udacity/reactnd-project-readable-starter
 Please, download it and run 'node server.js'
+You will need install the dev tool extension called 'redux-devtools-extension' in your browser
 
 ## Features
 
