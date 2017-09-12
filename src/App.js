@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { getCategories } from './actions/categoryActions';
 import { getPosts } from './actions/postActions';
+import HomeIcon from 'react-icons/lib/fa/home';
 import './App.css';
 
 import ListCategories from './components/listCategories'
@@ -23,7 +24,7 @@ class App extends Component {
         <Link
           className="appLink"
           to="/"
-        >Go index</Link>
+        ><HomeIcon size={40}/></Link>
         <Route exact path="/" render={() => <ListCategories categories={categories}/>}/>
         <Route exact path="/categories/:categoryUuid" render={() => <Category />}/>
         <Route exact path="/categories/:categoryUuid/posts/:postUuid" render={({ match }) => <Post linkPost={"/categories/" + match.params.categoryUuid + "/posts/" + match.params.postUuid }/>}/>
