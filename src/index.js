@@ -10,9 +10,17 @@ import reducer from './reducers';
 //import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
+const debug = false;
+
+let middleware = applyMiddleware(thunk);
+
+if(debug) {
+	middleware = compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+}
+
 const store = createStore(
   reducer,
-  compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+  middleware
 );
 
 ReactDOM.render(

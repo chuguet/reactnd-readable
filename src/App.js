@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCategories } from './actions/categoryActions';
 import { getPosts } from './actions/postActions';
 import HomeIcon from 'react-icons/lib/fa/home';
 import './App.css';
 
-import ListCategories from './components/listCategories'
-import Category from './components/category'
-import Post from './components/post'
+import ListCategories from './components/listCategories';
+import Category from './components/category';
+import Post from './components/post';
+import Page404 from './components/page404';
 
 class App extends Component {
   componentDidMount() {
@@ -25,10 +24,13 @@ class App extends Component {
           className="appLink"
           to="/"
         ><HomeIcon size={40}/></Link>
-        <Route exact path="/" render={() => <ListCategories categories={categories}/>}/>
-        <Route exact path="/categories/:categoryUuid" render={() => <Category />}/>
-        <Route exact path="/categories/:categoryUuid/posts/:postUuid" render={({ match }) => <Post linkPost={"/categories/" + match.params.categoryUuid + "/posts/" + match.params.postUuid }/>}/>
-      </div>
+		<Switch>
+			<Route exact path="/" render={() => <ListCategories categories={categories}/>}/>
+			<Route exact path="/categories/:categoryUuid" render={() => <Category />}/>
+			<Route exact path="/categories/:categoryUuid/posts/:postUuid" render={({ match }) => <Post linkPost={"/categories/" + match.params.categoryUuid + "/posts/" + match.params.postUuid }/>}/>
+			<Route component={Page404}/>
+		</Switch>
+	  </div>
     );
   }
 }

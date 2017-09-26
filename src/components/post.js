@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import {withRouter, Link } from 'react-router-dom';
 import Modal from 'react-modal';
 
 import Comment from './comment';
@@ -100,6 +99,7 @@ class Post extends Component {
 
   deletePostHandler = (ev) => {
     ev.preventDefault();
+    this.props.history.push("");
     this.props.deletePost(this.props.post.id);
   }
 
