@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import Comment from './comment';
 import CommentForm from './forms/commentForm';
 import PostForm from './forms/postForm';
+import Page404 from './page404';
 
 import { getCommentsByPost } from './../actions/commentActions';
 import { likePost, unlikePost, deletePost } from './../actions/postActions';
@@ -16,7 +17,6 @@ class Post extends Component {
     sortingCriteria: 'score',
     modalOpenComment: false,
     modalOpenPost: false,
-    post: {},
   }
 
   onChange = (ev) => {
@@ -107,61 +107,65 @@ class Post extends Component {
     const {body, title, author, timestamp, voteScore} = this.props.post;
     const {showComment, showDetail} = this.props;
     const commentsView = showComment ? this.getCommentsView() : null;
-    return (
-      <div className="post">
-        <div className="post-title">
-          <button className="post-title-content" onClick={this.likePost}>Like post</button>
-          <button className="post-title-content" onClick={this.unlikePost}>Unlike post</button>
-          <Link
-            className="postLink"
-            to={this.props.linkPost}
-          >
-            <h3 className="post-title-content">Post {title}</h3>
-          </Link>
-          <button className="post-title-content" onClick={this.editPostHandler}>Edit post</button>
-          <button className="post-title-content" onClick={this.deletePostHandler}>Delete post</button>
-          {showDetail
-            ? <button className="post-title-content" onClick={this.addCommentHandler}>Add comment</button>
-            : null}
-        </div>
-        <p>Author: {author}</p>
-        <p>Vote score: {voteScore}</p>
-        <p>Time: {new Date(timestamp).toString()}</p>
-        {showDetail
-          ? <div>
-              <p>Body: {body}</p>
-            </div>
-          : null}
-        {
-          <div>
-            <label>Order comments </label>
-            <select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
-              <option value="timestamp">By time</option>
-              <option value="score">By score</option>
-            </select>
-            {commentsView}
-          </div>
-        }
-        <Modal
-          className='modal'
-          overlayClassName='overlay'
-          isOpen={this.state.modalOpenComment}
-          onRequestClose={this.closeModalComment}
-          contentLabel='Modal'
-        >
-          <CommentForm closeForm={this.closeModalComment} isUpdate={false} post={this.getPost()}/>
-        </Modal>
-        <Modal
-          className='modal'
-          overlayClassName='overlay'
-          isOpen={this.state.modalOpenPost}
-          onRequestClose={this.closeModalPost}
-          contentLabel='Modal'
-        >
-          <PostForm closeForm={this.closeModalPost} isUpdate={true} post={this.getPost()}/>
-        </Modal>
-      </div>
-    );
+	if(Object.keys(this.props.post).length !== 0) {
+		return (
+		  <div className="post">
+			<div className="post-title">
+			  <button className="post-title-content" onClick={this.likePost}>Like post</button>
+			  <button className="post-title-content" onClick={this.unlikePost}>Unlike post</button>
+			  <Link
+				className="postLink"
+				to={this.props.linkPost}
+			  >
+				<h3 className="post-title-content">Post {title}</h3>
+			  </Link>
+			  <button className="post-title-content" onClick={this.editPostHandler}>Edit post</button>
+			  <button className="post-title-content" onClick={this.deletePostHandler}>Delete post</button>
+			  {showDetail
+				? <button className="post-title-content" onClick={this.addCommentHandler}>Add comment</button>
+				: null}
+			</div>
+			<p>Author: {author}</p>
+			<p>Vote score: {voteScore}</p>
+			<p>Time: {new Date(timestamp).toString()}</p>
+			{showDetail
+			  ? <div>
+				  <p>Body: {body}</p>
+				</div>
+			  : null}
+			{
+			  <div>
+				<label>Order comments </label>
+				<select value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
+				  <option value="timestamp">By time</option>
+				  <option value="score">By score</option>
+				</select>
+				{commentsView}
+			  </div>
+			}
+			<Modal
+			  className='modal'
+			  overlayClassName='overlay'
+			  isOpen={this.state.modalOpenComment}
+			  onRequestClose={this.closeModalComment}
+			  contentLabel='Modal'
+			>
+			  <CommentForm closeForm={this.closeModalComment} isUpdate={false} post={this.getPost()}/>
+			</Modal>
+			<Modal
+			  className='modal'
+			  overlayClassName='overlay'
+			  isOpen={this.state.modalOpenPost}
+			  onRequestClose={this.closeModalPost}
+			  contentLabel='Modal'
+			>
+			  <PostForm closeForm={this.closeModalPost} isUpdate={true} post={this.getPost()}/>
+			</Modal>
+		  </div>
+		);
+	} else {
+		return (<Page404/>);
+	}
   }
 
 }

@@ -9,6 +9,7 @@ import { getPosts } from './../actions/postActions';
 
 import Post from './post';
 import PostForm from './forms/postForm';
+import Page404 from './page404';
 
 class Category extends Component {
 
@@ -53,35 +54,39 @@ class Category extends Component {
     const { category } = this.props;
     const postsView = this.getPostsView(category);
     const newPost = { category: category.path };
-    return (
-      <div className="category">
-        <div className="category-title">
-          <Link
-            className="categoryLink"
-            to={"/categories/" + category.path}
-          >
-            <h2 className="category-title-content">Category {category.name}</h2>
-          </Link>
-          <button className="category-title-content" onClick={this.openModal}>Add post</button>
-        </div>
-        <h4>Path {category.path}</h4>
-        <label>Order posts: </label>
-        <select  value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
-          <option value="timestamp">By time</option>
-          <option value="score">By score</option>
-        </select>
-        { postsView }
-        <Modal
-          className='modal'
-          overlayClassName='overlay'
-          isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}
-          contentLabel='Modal'
-        >
-          <PostForm closeForm={this.closeModal} isUpdate={false} post={newPost}/>
-        </Modal>
-      </div>
-    );
+	if(Object.keys(category).length !== 0) {
+		return (
+		  <div className="category">
+			<div className="category-title">
+			  <Link
+				className="categoryLink"
+				to={"/categories/" + category.path}
+			  >
+				<h2 className="category-title-content">Category {category.name}</h2>
+			  </Link>
+			  <button className="category-title-content" onClick={this.openModal}>Add post</button>
+			</div>
+			<h4>Path {category.path}</h4>
+			<label>Order posts: </label>
+			<select  value={this.state.sortingCriteria} onChange={this.onChange} ref="sortingSelector">
+			  <option value="timestamp">By time</option>
+			  <option value="score">By score</option>
+			</select>
+			{ postsView }
+			<Modal
+			  className='modal'
+			  overlayClassName='overlay'
+			  isOpen={this.state.modalOpen}
+			  onRequestClose={this.closeModal}
+			  contentLabel='Modal'
+			>
+			  <PostForm closeForm={this.closeModal} isUpdate={false} post={newPost}/>
+			</Modal>
+		  </div>
+		);
+	} else {
+		return (<Page404/>);
+	}
   }
 
 }
